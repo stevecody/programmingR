@@ -3,21 +3,28 @@
 ## so that the value can be subsequently retreived from the cache rather than
 ## being recomputed.
 
-## NOTE: Does not validate that the stored inversion is that of the stored matrix.
+## use 'makeCacheMatrix' to create the initial structure
+## use 'cacheSolve' to check the cache and return a new or existing (cached) result
+
+## the Matrix object can be inspected  using 'amatrix$get()' and
+## 'amatrix$getinverse()' (where 'amatrix' is the name of the object created by
+## 'makeCacheMatrix')
+
 
 
 ## This function creates a special "matrix" object that can cache its inverse.
+## It only needs to be run to initially create the structure
+
 makeCacheMatrix <- function(x = matrix()) {
         ##initialise the  location for the inverted matrix result
         m <- NULL
         
-        ## store the unsolved matrix in the cache and initailise anything already
-        ## stored in the inverse cache.
+        ## store the matrix in the cache and initailise the inverse cache.
         set <- function(y) {
                 x <<- y
                 m <<- NULL
         }
-        ## retrieve the unsolved matrix from the cache
+        ## retrieve the matrix from the cache
         get <- function() x
         
         ## store the inverse of the matrix in the cache
@@ -38,6 +45,7 @@ makeCacheMatrix <- function(x = matrix()) {
 ## makeCacheMatrix above. If the inverse has already been calculated (and the
 ## matrix has not changed), then cacheSolve should retrieve the inverse from the
 ## cache.
+
 cacheSolve <- function(x, ...) {
         ## Get the inverse of the matrix out of the cache
         m <- x$getinverse()
